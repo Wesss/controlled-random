@@ -17,12 +17,19 @@ class CRandomFnsTest extends haxe.unit.TestCase {
     }
 
     public function testNext() {
+        var maxParam = -1;
+        var randomFn = function(max) {
+            maxParam = max;
+            return 0;
+        }
         var state: CRandomState = {
             pickDelta: new Vector(3).map(function(_) return 0),
-            randomFn: function(x) return 0
+            randomFn: randomFn
         };
+
         var output: FnOutput = CRandomFns.next(state);
 
         assertEquals(0, output.result);
+        assertEquals(3, maxParam);
     }
 }
