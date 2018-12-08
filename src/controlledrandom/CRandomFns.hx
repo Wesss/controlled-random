@@ -1,10 +1,10 @@
 package controlledrandom;
 
-typedef CRandomState = {pickDelta: Map<Int, Int>, randomFn: Void->Int};
+import controlledrandom.CRandom;
+
 typedef FnOutput = {state: CRandomState, result: Dynamic};
 
 class CRandomFns {
-
     public static function _new(max: Int, randomFn: Int->Int): CRandomState {
         var pickDelta = new Map<Int, Int>();
         for (i in 0...max) {

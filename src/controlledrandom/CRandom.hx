@@ -1,5 +1,7 @@
 package controlledrandom;
 
+typedef CRandomState = {pickDelta: Map<Int, Int>, randomFn: Void->Int};
+
 class CRandom {
     var state: CRandomState;
 
@@ -12,7 +14,7 @@ class CRandom {
     }
 
     public function next() {
-        var output = CRandomFns._next(pickDelta, randomFn);
+        var output = CRandomFns.next(state);
         state = output.state;
         return output.result;
     }
