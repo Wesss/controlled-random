@@ -56,7 +56,7 @@ jobs:
 
 workflows:
     version: 2
-    test:
+    compile_and_test:
         jobs:
             - interpret_tests
             - compile_tests:
