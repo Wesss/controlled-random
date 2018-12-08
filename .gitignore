@@ -1,0 +1,10 @@
+# General
+bin/
+tmp/
+dist/
+build/
+report/
+*.tmp
+
+# Local to Project
+sandbox/

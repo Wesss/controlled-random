@@ -1,0 +1,70 @@
+version: 2
+jobs:
+    interpret_tests:
+        docker:
+            - image: haxe:3.4.4
+        steps:
+            - checkout
+            - run:
+                name: Interpret Tests
+                command: haxe interpret-tests.hxml
+    compile_tests:
+        docker:
+            - image: haxe:3.4.4
+        steps:
+            - checkout
+            - run:
+                name: Compile Tests
+                command: haxe compile-tests.hxml
+            - run:
+                name: Prepare Workspace
+                command: |
+                    mkdir workspace/
+                    cp -r build/ workspace/build/
+            - persist_to_workspace:
+                root: workspace
+                paths:
+                    - build
+    run_neko_test:
+        docker:
+            - image: haxe:3.4.4
+        steps:
+            - attach_workspace:
+                at: workspace
+            - run:
+                name: Extract Workspace
+                command: |
+                    cp -r workspace/build/ build/
+            - run:
+                name: Run Neko Tests
+                command: |
+                    neko build/test/neko-test.n
+    run_python_tests:
+        docker:
+            - image: python:3.6.7
+        steps:
+            - attach_workspace:
+                at: workspace
+            - run:
+                name: Extract Workspace
+                command: |
+                    cp -r workspace/build/ build/
+            - run:
+                name: Run Neko Tests
+                command: |
+                    python build/test/python-test.py
+
+workflows:
+    version: 2
+    test:
+        jobs:
+            - interpret_tests
+            - compile_tests:
+                requires:
+                    - interpret_tests
+            - run_neko_test:
+                requires:
+                    - compile_tests
+            - run_python_tests:
+                requires:
+                    - compile_tests
