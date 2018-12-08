@@ -14,4 +14,14 @@ class CRandomFnsTest extends haxe.unit.TestCase {
 
         assertEquals(0, state.randomFn());
     }
+
+    public function testNext() {
+        var state: CRandomState = {
+            pickDelta: [0 => 0, 1 => 0, 2 => 0],
+            randomFn: function() return 0
+        };
+        var output: FnOutput = CRandomFns.next(state);
+
+        assertEquals(0, output.result);
+    }
 }
