@@ -1,6 +1,7 @@
 package controlledrandom;
 
 import controlledrandom.CRandomFns;
+import controlledrandom.CRandom;
 
 class CRandomFnsTest extends haxe.unit.TestCase {
 

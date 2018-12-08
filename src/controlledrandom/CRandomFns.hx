@@ -1,7 +1,6 @@
 package controlledrandom;
 
-import controlledrandom.CRandom;
-
+typedef CRandomState = {pickDelta: Map<Int, Int>, randomFn: Void->Int};
 typedef FnOutput = {state: CRandomState, result: Dynamic};
 
 class CRandomFns {
