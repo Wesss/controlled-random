@@ -1,17 +1,18 @@
 package controlledrandom;
 
 class CRandom {
-    var randomFn:Void->Int;
+    var pickDelta: Map<Int, Int>;
+    var randomFn: Void->Int;
 
-    public static function create():CRandom {
-        return new CRandom(function() return Std.random(2));
+    public static function create(max: Int): CRandom {
+        return new CRandom(max, Std.random);
     }
 
-    public function new(randomFn:Void->Int) {
-        this.randomFn = randomFn;
+    private function new(max: Int, randomFn: Int->Int) {
+        CRandomFns._new(max, randomFn);
     }
 
     public function next() {
-        return randomFn();
+        return CRandomFns._next(pickDelta, randomFn);
     }
 }
