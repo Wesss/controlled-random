@@ -1,70 +1,149 @@
 version: 2
+
+_environemnt:
+    WORKSPACE_PATH: &WORKSPACE_PATH /tmp/workspace
+    PROJECT_PATH: &PROJECT_PATH /root/project
+    environment: &environment
+        WORKSPACE_PATH: *WORKSPACE_PATH
+        PROJECT_PATH: *PROJECT_PATH
+
+_steps:
+    copy_build_to_workspace: &copy_build_to_workspace
+        run:
+            name: Prepare Workspace
+            command: |
+                mkdir $WORKSPACE_PATH
+                cp -r $PROJECT_PATH/build/ $WORKSPACE_PATH/build/
+    persist_build_to_workspace: &persist_build_to_workspace
+        persist_to_workspace:
+            root: *WORKSPACE_PATH
+            paths:
+                - build
+    attach_workspace: &attach_workspace
+        attach_workspace:
+            at: *WORKSPACE_PATH
+    copy_build_from_workspace: &load_build_from_workspace
+        run:
+            name: Extract Workspace
+            command: |
+                cp -r $WORKSPACE_PATH/build/ $PROJECT_PATH/build/
+    install_integration_test_deps: &install_integration_test_deps
+        run:
+            name: Install Integration Test Deps
+            command: |
+                haxelib install seedyrng 0.1.0
+
+
+
 jobs:
-    interpret_tests:
+    interpret_unit_tests:
         docker:
             - image: haxe:3.4.4
         steps:
             - checkout
             - run:
                 name: Interpret Tests
-                command: haxe interpret-tests.hxml
-    compile_tests:
+                command: haxe interpret-unit-tests.hxml
+    compile_unit_tests:
+        environment:
+            <<: *environment
         docker:
             - image: haxe:3.4.4
         steps:
             - checkout
             - run:
                 name: Compile Tests
-                command: haxe compile-tests.hxml
+                command: haxe compile-unit-tests.hxml
+            - *copy_build_to_workspace
+            - *persist_build_to_workspace
+    run_neko_unit_tests:
+        docker:
+            - image: haxe:3.4.4
+        environment:
+            <<: *environment
+        steps:
+            - *attach_workspace
+            - *load_build_from_workspace
             - run:
-                name: Prepare Workspace
+                name: Run Tests
                 command: |
-                    mkdir workspace/
-                    cp -r build/ workspace/build/
-            - persist_to_workspace:
-                root: workspace
-                paths:
-                    - build
-    run_neko_test:
+                    neko build/test/neko-unit-tests.n
+    run_python_unit_tests:
+        docker:
+            - image: python:3.6.7
+        environment:
+            <<: *environment
+        steps:
+            - *attach_workspace
+            - *load_build_from_workspace
+            - run:
+                name: Run Tests
+                command: |
+                    python build/test/python-unit-tests.py
+    interpret_integration_tests:
         docker:
             - image: haxe:3.4.4
         steps:
-            - attach_workspace:
-                at: workspace
+            - checkout
+            - *install_integration_test_deps
             - run:
-                name: Extract Workspace
-                command: |
-                    cp -r workspace/build/ build/
+                name: Interpret Tests
+                command: haxe interpret-integration-tests.hxml
+    compile_integration_tests:
+        environment:
+            <<: *environment
+        docker:
+            - image: haxe:3.4.4
+        steps:
+            - checkout
+            - *install_integration_test_deps
             - run:
-                name: Run Neko Tests
+                name: Compile Tests
+                command: haxe compile-integration-tests.hxml
+            - *copy_build_to_workspace
+            - *persist_build_to_workspace
+    run_neko_integration_tests:
+        docker:
+            - image: haxe:3.4.4
+        environment:
+            <<: *environment
+        steps:
+            - *attach_workspace
+            - *load_build_from_workspace
+            - run:
+                name: Run Tests
                 command: |
-                    neko build/test/neko-test.n
-    run_python_tests:
+                    neko build/test/neko-integration-tests.n
+    run_python_integration_tests:
         docker:
             - image: python:3.6.7
+        environment:
+            <<: *environment
         steps:
-            - attach_workspace:
-                at: workspace
+            - *attach_workspace
+            - *load_build_from_workspace
             - run:
-                name: Extract Workspace
+                name: Run Tests
                 command: |
-                    cp -r workspace/build/ build/
-            - run:
-                name: Run Neko Tests
-                command: |
-                    python build/test/python-test.py
+                    python build/test/python-integration-tests.py
 
 workflows:
     version: 2
-    compile_and_test:
+    all_tests:
         jobs:
-            - interpret_tests
-            - compile_tests:
+            - interpret_unit_tests
+            - compile_unit_tests
+            - run_neko_unit_tests:
                 requires:
-                    - interpret_tests
-            - run_neko_test:
+                    - compile_unit_tests
+            - run_python_unit_tests:
                 requires:
-                    - compile_tests
-            - run_python_tests:
+                    - compile_unit_tests
+            - interpret_integration_tests
+            - compile_integration_tests
+            - run_neko_integration_tests:
                 requires:
-                    - compile_tests
+                    - compile_integration_tests
+            - run_python_integration_tests:
+                requires:
+                    - compile_integration_tests

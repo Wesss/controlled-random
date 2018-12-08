@@ -9,6 +9,10 @@ class CRandom {
         return new CRandom(max, Std.random);
     }
 
+    public static function createWithRandom(max: Int, randomFn: Int->Int): CRandom {
+        return new CRandom(max, randomFn);
+    }
+
     private function new(max: Int, randomFn: Int->Int) {
         state = CRandomFns._new(max, randomFn);
     }

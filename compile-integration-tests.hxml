@@ -3,10 +3,10 @@
 -main Runner
 --each
 
--neko build/test/neko-test.n
+-neko build/test/neko-integration-tests.n
 -cmd echo "neko tests compiled"
 --next
 
--python build/test/python-test.py
+-python build/test/python-integration-tests.py
 -cmd echo "python tests compiled"
 --next
