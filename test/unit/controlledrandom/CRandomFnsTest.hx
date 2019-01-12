@@ -19,7 +19,6 @@ class CRandomFnsTest extends haxe.unit.TestCase {
     public function testNextPicksNumber() {
         var stateParam;
         var pickFn = function(state) {
-            trace(state);
             stateParam = state;
             return 0;
         };

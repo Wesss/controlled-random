@@ -15,7 +15,7 @@ class CRandomFns {
         return nextFn(state, pick);
     }
 
-    public static function nextFn(state: CRandomState, pickFn): FnOutput {
+    public static function nextFn(state: CRandomState, pickFn: CRandomState->Int): FnOutput {
         var result = pickFn(state);
 
         var pickDelta = state.pickDelta.copy();
@@ -33,5 +33,7 @@ class CRandomFns {
 
     public static function pick(state: CRandomState): Int {
         return state.randomFn(state.pickDelta.length);
+        // transform pick delta into a probability distribution
+        // pick from the generated distribution
     }
 }
