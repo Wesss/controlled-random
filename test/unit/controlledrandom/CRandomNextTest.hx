@@ -4,17 +4,7 @@ import haxe.ds.Vector;
 import controlledrandom.CRandomFns;
 import controlledrandom.CRandom;
 
-class CRandomFnsTest extends haxe.unit.TestCase {
-
-    public function testInitState() {
-        var state: CRandomState = CRandomFns._new(2, function(x) return 0);
-
-        for (i in state.pickDelta) {
-            assertEquals(0, state.pickDelta[0]);
-        }
-
-        assertEquals(0, state.randomFn(99));
-    }
+class CRandomNextTest extends haxe.unit.TestCase {
 
     public function testNextPicksNumber() {
         var stateParam;
@@ -23,7 +13,7 @@ class CRandomFnsTest extends haxe.unit.TestCase {
             return 0;
         };
         var state: CRandomState = {
-            pickDelta: new Vector(3).map(function(_) return 0),
+            pickDelta: Vector.fromArrayCopy([0, 0 ,0]),
             randomFn: function(_) return 0
         };
 
@@ -45,10 +35,7 @@ class CRandomFnsTest extends haxe.unit.TestCase {
             stateParam = state;
             return 0;
         };
-        var pickDelta = new Vector(3);
-        pickDelta[0] = 0;
-        pickDelta[1] = 3;
-        pickDelta[2] = 4;
+        var pickDelta = Vector.fromArrayCopy([0, 3 ,4]);
 
         var state: CRandomState = {
             pickDelta: pickDelta,
@@ -73,10 +60,7 @@ class CRandomFnsTest extends haxe.unit.TestCase {
             stateParam = state;
             return 0;
         };
-        var pickDelta = new Vector(3);
-        pickDelta[0] = 3;
-        pickDelta[1] = 3;
-        pickDelta[2] = 0;
+        var pickDelta = Vector.fromArrayCopy([3, 3 ,0]);
 
         var state: CRandomState = {
             pickDelta: pickDelta,
