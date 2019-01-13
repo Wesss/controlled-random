@@ -19,4 +19,12 @@ class VectorExtender {
         }
         return max;
     }
+
+    static public function sum(vector: Vector<Int>): Int {
+        var sum = 0;
+        for (i in 0...vector.length) {
+            sum += vector[i];
+        }
+        return sum;
+    }
 }

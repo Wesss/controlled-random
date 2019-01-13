@@ -38,8 +38,8 @@ class CRandomFns {
         var probDist: Vector<Int> = probDistFn(state.pickDelta);
 
         // pick a value randomly
-        var unitProbabilities: Vector<Int> = flattenProbabilities(probDist);
-        return unitProbabilities[state.randomFn(unitProbabilities.length)];
+        var unitOutcomes: Vector<Int> = flattenProbabilities(probDist);
+        return unitOutcomes[state.randomFn(unitOutcomes.length)];
     }
 
     /**
@@ -59,7 +59,24 @@ class CRandomFns {
         return probDist;
     }
 
+    /**
+     *  @return Vector<Int> representing a unit outcomes, where each value represents
+     *      an equal chance to be picked
+     */
     public static function flattenProbabilities(probDist: Vector<Int>): Vector<Int> {
-        return probDist;
+        var cumulativeProbDist = probDist.copy();
+        for (i in 1...cumulativeProbDist.length) {
+            cumulativeProbDist[i] += cumulativeProbDist[i-1];
+        }
+
+        var i = 0;
+        var unitOutcomes = new Vector(cumulativeProbDist[cumulativeProbDist.length - 1]);
+        for (j in 0...unitOutcomes.length) {
+            while (cumulativeProbDist[i] <= j) {
+                i++;
+            }
+            unitOutcomes[j] = i;
+        }
+        return unitOutcomes;
     }
 }

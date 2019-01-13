@@ -8,6 +8,7 @@ class Runner {
         testRunner.add(new CRandomInitTest());
         testRunner.add(new CRandomNextTest());
         testRunner.add(new CRandomProbDistTest());
+        testRunner.add(new CRandomFlattenProbabilitiesTest());
 
         // exit w/code 1 if tests fail, for CI
         testRunner.run();
