@@ -1,0 +1,5 @@
+-cp src
+-lib controlled-random:0.0.1
+-main Main
+
+--interp
