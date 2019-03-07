@@ -126,17 +126,18 @@ jobs:
             - checkout
             - run:
                 name: Setup Haxelib Env
+                working_directory: ~/test/e2e/haxelib/
                 command: |
-                    cd $PROJECT_PATH/test/e2e/haxelib/
                     haxelib dev controlled-random $PROJECT_PATH
             - run:
                 name: Haxelib E2E Test
+                working_directory: ~/test/e2e/haxelib/
                 command: |
                     haxe haxelib-test.hxml
 
 workflows:
     version: 2
-    all_tests:
+    on_push:
         jobs:
             - interpret_unit_tests
             - compile_unit_tests
