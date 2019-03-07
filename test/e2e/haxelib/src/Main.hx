@@ -15,11 +15,11 @@ class Main {
 
     static function main():Void {
         randVal = 0.0;
-        var cRand: CRandom = CRandom.createWithRandom(1000000, pseudoRandomSeededInt);
+        var cRand: CRandom = CRandom.createWithRandom(10000, pseudoRandomSeededInt);
         for (i in 0...50000) {
             var randVal = cRand.next();
             trace(randVal);
-            if (randVal < 0 || randVal > 999999) {
+            if (randVal < 0 || randVal > 9999) {
                 trace("got back value " + randVal + " from .next(), iteration " + i);
                 Sys.exit(1);
             }
