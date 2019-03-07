@@ -1,10 +1,10 @@
 import controlledrandom.CRandom;
 
 class Main {
-    private var randVal:Float;
+    private static var randVal:Float;
 
     // for use as a deterministic pseudo-RNG
-    private function pseudoRandomSeededInt(max: Int): Int {
+    private static function pseudoRandomSeededInt(max: Int): Int {
         randVal = (randVal * 4139 + 46957) % 240853;
         if (randVal < 0) {
             randVal *= -1;
