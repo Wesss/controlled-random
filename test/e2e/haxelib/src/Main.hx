@@ -1,12 +1,25 @@
 import controlledrandom.CRandom;
 
 class Main {
-    // TODO get this run in circleci
-    // TODO exit 1 if failed, use seeded psuedo-random numbers
-    static function main():Void {
-        var cRand: CRandom = CRandom.create(10);
-        for (i in 0...100) {
-            trace(cRand.next());
+    // for use as a deterministic pseudo-RNG
+    private function pseudoRandomSeededInt(max: Int): Int {
+        randVal = (randVal * 4139 + 46957) % 240853;
+        if (randVal < 0) {
+            randVal *= -1;
         }
+
+        return Std.int((randVal / 240853.0) * max);
+    }
+
+    static function main():Void {
+        var cRand: CRandom = CRandom.create(1000, pseudoRandomSeededInt);
+        for (i in 0...1000000) {
+            randVal = cRand.next();
+            trace(randVal);
+            if (randVal < 0 || randVal > 999) {
+                Sys.exit(1);
+            }
+        }
+        Sys.exit(0);
     }
 }
