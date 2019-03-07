@@ -1,6 +1,8 @@
 import controlledrandom.CRandom;
 
 class Main {
+    private var randVal:Float;
+
     // for use as a deterministic pseudo-RNG
     private function pseudoRandomSeededInt(max: Int): Int {
         randVal = (randVal * 4139 + 46957) % 240853;
@@ -12,9 +14,10 @@ class Main {
     }
 
     static function main():Void {
+        randVal = 0.0;
         var cRand: CRandom = CRandom.create(1000, pseudoRandomSeededInt);
         for (i in 0...1000000) {
-            randVal = cRand.next();
+            var randVal = cRand.next();
             trace(randVal);
             if (randVal < 0 || randVal > 999) {
                 Sys.exit(1);
