@@ -123,6 +123,7 @@ jobs:
         environment:
             <<: *environment
         steps:
+            - checkout
             - run:
                 name: Setup Haxelib Env
                 command: |
