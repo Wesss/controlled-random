@@ -25,9 +25,8 @@ haxe compile-integration-tests.hxml
 ### E2E Tests
 
 ```bash
+# haxelib test
 cd $PROJECT_ROOT/test/e2e/haxelib/
 haxelib dev controlled-random $PROJECT_ROOT
 haxe haxelib-test.hxml
-# then run neko build
-# then run python build
 ```
