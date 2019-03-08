@@ -4,6 +4,8 @@ People are inherently bad at reasoning about randomness, so don’t leave your u
 
 Controlled Random is a stateful random number generator wrapper that modifies its output based on its previous output. Each possible value's chance to be picked is increased based on how under-served its been compared to the most picked value. This fulfills the [Monte Carlo fallacy](https://en.wikipedia.org/wiki/Gambler%27s_fallacy) by ensuring that each value is picked an even amount in the long run.
 
+Currently only Neko and Python3 targets have been tested.
+
 ## Usage
 
 NOTE: This should not be used in applications that require true random chance, such as for encryption or gambling. We are not responsible for the misuse of this library.
