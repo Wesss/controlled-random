@@ -71,3 +71,15 @@ cd $PROJECT_ROOT/test/e2e/haxelib/
 haxelib dev controlled-random $PROJECT_ROOT
 haxe haxelib-test.hxml
 ```
+
+### Submission
+TODO
+run in haxe image via circle:
+```bash
+apt-get update
+apt-get install zip
+# entered Y to continue
+zip -r controlled-random.zip project
+haxelib submit controlled-random.zip
+# entered password
+```
