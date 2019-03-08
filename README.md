@@ -6,6 +6,8 @@ Controlled Random is a stateful random number generator wrapper that modifies it
 
 ## Usage
 
+NOTE: This should not be used in applications that require true random chance, such as for encryption or gambling. We are not responsible for the misuse of this library.
+
 ### Haxelib
 
 1. Install the haxelib with the following:
@@ -28,13 +30,7 @@ for (i in 0...100) {
 }
 ```
 
-<aside class="warning">
-NOTE: Generating each random number runs in O(n), where n is the number of possible values to pick from. Take caution to keep your group sizes as contained as possible.
-</aside>
-
-<aside class="warning">
-NOTE: This should not be used in projects requiring true random chance, such as encryption or gambling. We are not responsible for the misuse of this library.
-</aside>
+NOTE: Generating each random number runs in O(n), where n is the number of possible values to pick from. Take caution to keep your group sizes as small as possible.
 
 ## Contributing
 
