@@ -1,12 +1,12 @@
 {
   "name": "controlled-random",
   "url" : "https://github.com/Wesss/controlled-random",
-  "license": "MIT",
-  "tags": [""],
-  "description": "Randomness, the way users expect it",
+  "license": "Apache",
+  "tags": ["random", "game"],
+  "description": "People are inherently bad at reasoning about randomness, so don’t leave your user’s experience to chance. Give users what they expect out of randomness.",
   "version": "0.0.1",
   "classPath": "src/",
-  "releasenote": "",
-  "contributors": ["Wesley Cox"],
+  "releasenote": "Initial Release",
+  "contributors": ["Wesss"],
   "dependencies": {}
 }
